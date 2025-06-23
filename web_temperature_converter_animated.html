@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Temperature Converter</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      background: #0f2027; 
+      overflow: hidden;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -100px;
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle at center, #f39c12, #e74c3c);
+      border-radius: 50%;
+      animation: rise 10s infinite ease-in;
+      opacity: 0.7;
+    }
+
+    @keyframes rise {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(-1200px) scale(0.5); }
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      animation: slideDown 1s ease-out;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .box {
+      background: rgba(255, 255, 255, 0.95);
+      color: #333;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      animation: fadeIn 1s ease-in-out;
+      z-index: 1;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    input, select, button {
+      margin: 10px;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    #result {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="background">
+    <div class="bubble" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="bubble" style="left: 30%; animation-delay: 2s;"></div>
+    <div class="bubble" style="left: 50%; animation-delay: 4s;"></div>
+    <div class="bubble" style="left: 70%; animation-delay: 1s;"></div>
+    <div class="bubble" style="left: 90%; animation-delay: 3s;"></div>
+  </div>
+
+  <h2>🌡️ Temperature Converter</h2>
+  <div class="box">
+    <label>Enter Temperature:</label>
+    <input type="number" id="temp"><br>
+    <select id="from">
+      <option value="C">Celsius</option>
+      <option value="F">Fahrenheit</option>
+      <option value="K">Kelvin</option>
+    </select>
+    to
+    <select id="to">
+      <option value="C">Celsius</option>
+      <option value="F">Fahrenheit</option>
+      <option value="K">Kelvin</option>
+    </select><br>
+    <button onclick="convert()">Convert</button>
+    <p id="result">Result: </p>
+  </div>
+
+  <script>
+    function convert() {
+      let temp = parseFloat(document.getElementById('temp').value);
+      let from = document.getElementById('from').value;
+      let to = document.getElementById('to').value;
+      let result = '';
+
+      if (from === to) {
+        result = temp;
+      } else if (from === 'C' && to === 'F') {
+        result = (temp * 9/5) + 32;
+      } else if (from === 'C' && to === 'K') {
+        result = temp + 273.15;
+      } else if (from === 'F' && to === 'C') {
+        result = (temp - 32) * 5/9;
+      } else if (from === 'F' && to === 'K') {
+        result = (temp - 32) * 5/9 + 273.15;
+      } else if (from === 'K' && to === 'C') {
+        result = temp - 273.15;
+      } else if (from === 'K' && to === 'F') {
+        result = (temp - 273.15) * 9/5 + 32;
+      }
+
+      document.getElementById('result').innerText = 'Result: ' + result.toFixed(2) + ' °' + to;
+
+    }
+  </script>
+</body>
+</html>
